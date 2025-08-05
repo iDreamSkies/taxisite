@@ -1,6 +1,6 @@
 <?php
 $botToken = '123456:ABC-DEF1234ghIkl-zyx57W2v1u123ew11';
-$chatId = '-1002828668884';
+$chatId = '-10028286';
 
 $name = $_POST['name'] ?? '';
 $phone = $_POST['phone'] ?? '';
@@ -34,4 +34,5 @@ if ($response) {
     echo 'ERROR';
 }
 ?>
+
 
