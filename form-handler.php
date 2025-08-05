@@ -1,5 +1,5 @@
 <?php
-$botToken = '8463630414:AAEG0bvmSLlc4CZ_q2BlHkqEpjnbgMBTnYU';
+$botToken = '123456:ABC-DEF1234ghIkl-zyx57W2v1u123ew11';
 $chatId = '-1002828668884';
 
 $name = $_POST['name'] ?? '';
@@ -34,3 +34,4 @@ if ($response) {
     echo 'ERROR';
 }
 ?>
+
