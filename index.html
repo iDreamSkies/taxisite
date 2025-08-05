@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Elite Ways | Премиум Трансфер | Молдова и Украина</title>
+    <title>Elite Ways | Премиум Трансфер | Молдова, Украина, Европа</title>
 
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -47,10 +47,11 @@
             backdrop-filter: blur(10px);
             box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
         }
-        input[type="date"]::-webkit-calendar-picker-indicator,
-        input[type="time"]::-webkit-calendar-picker-indicator {
-            -webkit-appearance: none;
-            display: none;
+        /* Стилизация плейсхолдера для date input */
+        input[type="date"]:not(:focus):in-range::-webkit-datetime-edit-year-field,
+        input[type="date"]:not(:focus):in-range::-webkit-datetime-edit-month-field,
+        input[type="date"]:not(:focus):in-range::-webkit-datetime-edit-day-field {
+            color: transparent;
         }
         .fade-in-up { opacity: 1; }
         .scroll-down-arrow {
@@ -61,8 +62,38 @@
             40% { transform: translateY(-20px); }
             60% { transform: translateY(-10px); }
         }
-        /* Стили для модального окна галереи */
         #gallery-modal.hidden { display: none; }
+        
+        .faq-question .faq-arrow {
+            transition: transform 0.3s ease;
+        }
+        .faq-question.active .faq-arrow {
+            transform: rotate(180deg);
+        }
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out, padding 0.3s ease;
+            padding: 0 1.5rem;
+        }
+        .destination-tag {
+            transition: all 0.3s ease;
+        }
+        .destination-tag:hover {
+            transform: translateY(-4px) scale(1.05);
+            box-shadow: 0 10px 20px rgba(212, 175, 55, 0.1);
+        }
+        /* Styles for fleet slider */
+        .fleet-image-wrapper {
+            position: relative;
+        }
+        .fleet-image {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
     </style>
 </head>
 <body class="bg-brand-dark text-gray-300 antialiased">
@@ -77,13 +108,18 @@
                     </a>
                 </div>
                 <nav class="hidden lg:flex lg:gap-x-10 items-center">
-                    <a href="#about" class="text-sm font-semibold leading-6 text-white hover:text-brand-accent transition-colors">О нас</a>
+                    <a href="#about" class="text-sm font-semibold leading-6 text-white hover:text-brand-accent transition-colors">О&nbsp;нас</a>
+                    <a href="#advantages" class="text-sm font-semibold leading-6 text-white hover:text-brand-accent transition-colors">Преимущества</a>
                     <a href="#fleet" class="text-sm font-semibold leading-6 text-white hover:text-brand-accent transition-colors">Автопарк</a>
+                    <a href="#destinations" class="text-sm font-semibold leading-6 text-white hover:text-brand-accent transition-colors">Направления</a>
                     <a href="#reviews" class="text-sm font-semibold leading-6 text-white hover:text-brand-accent transition-colors">Отзывы</a>
-                    <a href="#order" class="text-sm font-semibold leading-6 text-white hover:text-brand-accent transition-colors">Заказ</a>
+                    <a href="#faq" class="text-sm font-semibold leading-6 text-white hover:text-brand-accent transition-colors">FAQ</a>
                 </nav>
                 <div class="hidden lg:flex items-center gap-6">
-                    <a href="tel:+37300000000" class="font-semibold text-white hover:text-brand-accent transition-colors"><i class="fa-solid fa-phone mr-2 text-brand-accent"></i>+373 (00) 000-000</a>
+                    <a href="tel:+37300000000" class="font-semibold text-white hover:text-brand-accent transition-colors flex items-center">
+                        <i class="fa-solid fa-phone text-brand-accent text-xl lg:mr-0 xl:mr-2"></i>
+                        <span class="hidden xl:inline">+373 (00) 000-000</span>
+                    </a>
                     <a href="#order" class="inline-block rounded-lg bg-brand-accent px-6 py-3 text-center text-sm font-bold text-brand-dark transition-all duration-300 hover:bg-brand-accent-hover hover:shadow-lg hover:scale-105">Заказать трансфер</a>
                 </div>
                 <div class="lg:hidden">
@@ -94,14 +130,17 @@
     </header>
     
     <!-- Mobile Menu -->
-    <div id="mobile-menu" class="fixed inset-0 bg-brand-dark z-40 transform -translate-x-full transition-transform duration-300 ease-in-out lg:hidden">
+    <div id="mobile-menu" class="fixed inset-0 bg-brand-dark z-[1000] transform -translate-x-full transition-transform duration-300 ease-in-out lg:hidden">
         <div class="flex justify-end p-6">
             <button id="close-menu-btn" class="text-3xl text-white">&times;</button>
         </div>
         <nav class="flex flex-col items-center justify-center h-full gap-y-8">
-            <a href="#about" class="mobile-nav-link text-2xl font-bold text-white">О нас</a>
+            <a href="#about" class="mobile-nav-link text-2xl font-bold text-white">О&nbsp;нас</a>
+            <a href="#advantages" class="mobile-nav-link text-2xl font-bold text-white">Преимущества</a>
             <a href="#fleet" class="mobile-nav-link text-2xl font-bold text-white">Автопарк</a>
+            <a href="#destinations" class="mobile-nav-link text-2xl font-bold text-white">Направления</a>
             <a href="#reviews" class="mobile-nav-link text-2xl font-bold text-white">Отзывы</a>
+            <a href="#faq" class="mobile-nav-link text-2xl font-bold text-white">FAQ</a>
             <a href="#order" class="mobile-nav-link text-2xl font-bold text-white">Заказ</a>
             <a href="tel:+37300000000" class="mt-8 text-2xl font-bold text-white"><i class="fa-solid fa-phone mr-2 text-brand-accent"></i>+373 (00) 000-000</a>
         </nav>
@@ -111,34 +150,53 @@
         <!-- HERO SECTION -->
         <section class="relative min-h-screen flex items-center justify-center text-center overflow-hidden">
             <div class="absolute inset-0 z-0">
-                <img src="mercedes.jpg" 
+                <img src="img/mer.png" 
                      alt="Интерьер премиального автомобиля" 
                      class="w-full h-full object-cover opacity-40" id="hero-bg">
                 <div class="absolute inset-0 bg-gradient-to-t from-brand-dark via-brand-dark/50 to-transparent"></div>
             </div>
             <div class="relative z-10 px-4">
                 <h1 id="hero-title" class="text-4xl font-extrabold tracking-tight text-white sm:text-6xl md:text-7xl">
-                    Ваш комфорт и безопасность в пути
+                    Трансфер премиум-класса
                 </h1>
                 <p id="hero-subtitle" class="mt-6 max-w-3xl mx-auto text-lg sm:text-xl text-gray-300">
-                    Премиальные пассажирские перевозки по Молдове и Украине. 15 лет безупречного сервиса.
+                    Пассажирские перевозки по Молдове, Украине и в любую точку Европы. 15 лет безупречного сервиса.
                 </p>
-                <div id="hero-button" class="mt-10">
-                    <a href="#order" class="inline-block rounded-lg bg-brand-accent px-8 py-3.5 text-center text-lg font-bold text-brand-dark transition-all duration-300 hover:bg-brand-accent-hover hover:shadow-lg hover:scale-105 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-accent">Рассчитать и заказать</a>
+                <div id="hero-buttons" class="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
+                    <a href="#order" class="inline-block w-full sm:w-auto rounded-lg bg-brand-accent px-8 py-3.5 text-center text-lg font-bold text-brand-dark transition-all duration-300 hover:bg-brand-accent-hover hover:shadow-lg hover:scale-105">Рассчитать и заказать</a>
+                    <a href="tel:+37300000000" class="inline-block w-full sm:w-auto rounded-lg bg-brand-dark-secondary border border-gray-700 px-8 py-3.5 text-center text-lg font-bold text-white transition-all duration-300 hover:bg-gray-800 hover:scale-105"><i class="fa-solid fa-phone mr-2"></i>Позвонить</a>
                 </div>
+                 <div id="hero-messengers" class="mt-8 flex justify-center items-center gap-6">
+                    <span class="text-gray-400 text-sm">Или напишите нам:</span>
+                    <a href="https://t.me/your_telegram" target="_blank" class="text-gray-400 hover:text-brand-accent transition-colors"><i class="fa-brands fa-telegram text-3xl"></i></a>
+                    <a href="https://wa.me/37300000000" target="_blank" class="text-gray-400 hover:text-brand-accent transition-colors"><i class="fa-brands fa-whatsapp text-3xl"></i></a>
+                    <a href="viber://chat?number=%2B37300000000" target="_blank" class="text-gray-400 hover:text-brand-accent transition-colors"><i class="fa-brands fa-viber text-3xl"></i></a>
+                 </div>
             </div>
             <div class="absolute bottom-10 left-1/2 -translate-x-1/2 z-10">
                 <a href="#about" class="scroll-down-arrow text-white text-3xl"><i class="fa-solid fa-chevron-down"></i></a>
             </div>
         </section>
 
-        <!-- ABOUT SECTION (NEW) -->
+        <!-- ABOUT US SECTION -->
         <section id="about" class="py-16 sm:py-24 bg-brand-dark-secondary">
             <div class="mx-auto max-w-7xl px-6 lg:px-8">
-                <div class="text-center">
-                    <h2 class="text-3xl font-bold tracking-tight text-white sm:text-4xl">Почему выбирают нас?</h2>
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+                    <div class="fade-in-up">
+                        <h2 class="text-base font-semibold leading-7 text-brand-accent">Ваш надежный партнер</h2>
+                        <p class="mt-2 text-3xl font-bold tracking-tight text-white sm:text-4xl">15 лет опыта в премиум перевозках</p>
+                        <p class="mt-6 text-gray-400">
+                            Elite Ways – это больше, чем просто трансфер. Это ваш надежный партнер в путешествиях по Молдове, Украине и Европе. С 2009 года мы предоставляем услуги пассажирских перевозок премиум-класса, сочетая многолетний опыт, высочайшие стандарты безопасности и индивидуальный подход к каждому клиенту.
+                        </p>
+                        <p class="mt-4 text-gray-400">
+                            Наша миссия — сделать вашу поездку максимально комфортной, пунктуальной и беззаботной, будь то деловая встреча, семейный отпуск или трансфер в аэропорт.
+                        </p>
+                    </div>
+                    <div class="fade-in-up">
+                        <img src="img/main.png" alt="Профессиональный водитель Elite Ways" class="rounded-2xl shadow-lg">
+                    </div>
                 </div>
-                <div id="counters" class="mt-16 grid grid-cols-1 gap-12 text-center md:grid-cols-3">
+                <div id="counters" class="mt-20 grid grid-cols-1 gap-12 text-center md:grid-cols-3">
                     <div class="fade-in-up">
                         <span class="counter text-5xl font-bold text-brand-accent" data-target="15">0</span><span class="text-5xl font-bold text-brand-accent">+</span>
                         <p class="mt-2 text-lg text-gray-400">Лет на рынке</p>
@@ -148,62 +206,148 @@
                         <p class="mt-2 text-lg text-gray-400">Довольных клиентов</p>
                     </div>
                     <div class="fade-in-up">
-                        <span class="counter text-5xl font-bold text-brand-accent" data-target="30">0</span><span class="text-5xl font-bold text-brand-accent">+</span>
+                        <span class="counter text-5xl font-bold text-brand-accent" data-target="100">0</span><span class="text-5xl font-bold text-brand-accent">+</span>
                         <p class="mt-2 text-lg text-gray-400">Городов и направлений</p>
-                    </div>
-                </div>
-                <div class="mt-20 grid grid-cols-1 gap-10 md:grid-cols-2 lg:grid-cols-4">
-                    <div class="text-center fade-in-up">
-                        <div class="flex items-center justify-center h-16 w-16 rounded-full bg-brand-dark mx-auto mb-5"><i class="fa-solid fa-shield-halved text-2xl text-brand-accent"></i></div>
-                        <h3 class="font-bold text-white text-lg">Безопасность</h3>
-                        <p class="mt-2 text-sm text-gray-400">Опытные водители и технически исправные автомобили.</p>
-                    </div>
-                    <div class="text-center fade-in-up">
-                        <div class="flex items-center justify-center h-16 w-16 rounded-full bg-brand-dark mx-auto mb-5"><i class="fa-solid fa-clock text-2xl text-brand-accent"></i></div>
-                        <h3 class="font-bold text-white text-lg">Пунктуальность</h3>
-                        <p class="mt-2 text-sm text-gray-400">Подача автомобиля всегда в назначенное время.</p>
-                    </div>
-                    <div class="text-center fade-in-up">
-                        <div class="flex items-center justify-center h-16 w-16 rounded-full bg-brand-dark mx-auto mb-5"><i class="fa-solid fa-star text-2xl text-brand-accent"></i></div>
-                        <h3 class="font-bold text-white text-lg">Комфорт</h3>
-                        <p class="mt-2 text-sm text-gray-400">Чистые салоны, Wi-Fi и приятная атмосфера в пути.</p>
-                    </div>
-                    <div class="text-center fade-in-up">
-                        <div class="flex items-center justify-center h-16 w-16 rounded-full bg-brand-dark mx-auto mb-5"><i class="fa-solid fa-handshake text-2xl text-brand-accent"></i></div>
-                        <h3 class="font-bold text-white text-lg">Индивидуальный подход</h3>
-                        <p class="mt-2 text-sm text-gray-400">Учтем все ваши пожелания для идеальной поездки.</p>
                     </div>
                 </div>
             </div>
         </section>
 
+        <!-- ADVANTAGES SECTION -->
+        <section id="advantages" class="py-16 sm:py-24">
+            <div class="mx-auto max-w-7xl px-6 lg:px-8">
+                <div class="text-center">
+                    <h2 class="text-3xl font-bold tracking-tight text-white sm:text-4xl">Наши гарантии комфорта и безопасности</h2>
+                </div>
+                <div class="mt-20 grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-3">
+                    <div class="text-center fade-in-up">
+                        <div class="flex items-center justify-center h-16 w-16 rounded-full bg-brand-dark-secondary mx-auto mb-5"><i class="fa-solid fa-plane-arrival text-2xl text-brand-accent"></i></div>
+                        <h3 class="font-bold text-white text-lg">Встреча в аэропорту</h3>
+                        <p class="mt-2 text-sm text-gray-400">Водитель встретит вас с табличкой в зале прилета и поможет с багажом.</p>
+                    </div>
+                    <div class="text-center fade-in-up">
+                        <div class="flex items-center justify-center h-16 w-16 rounded-full bg-brand-dark-secondary mx-auto mb-5"><i class="fa-solid fa-hourglass-half text-2xl text-brand-accent"></i></div>
+                        <h3 class="font-bold text-white text-lg">Бесплатное ожидание</h3>
+                        <p class="mt-2 text-sm text-gray-400">Мы отслеживаем ваш рейс и ожидаем до 60 минут бесплатно в случае задержки.</p>
+                    </div>
+                     <div class="text-center fade-in-up">
+                        <div class="flex items-center justify-center h-16 w-16 rounded-full bg-brand-dark-secondary mx-auto mb-5"><i class="fa-solid fa-user-tie text-2xl text-brand-accent"></i></div>
+                        <h3 class="font-bold text-white text-lg">Профессиональные водители</h3>
+                        <p class="mt-2 text-sm text-gray-400">Вежливые и опытные водители с многолетним стажем безаварийной езды.</p>
+                    </div>
+                    <div class="text-center fade-in-up">
+                        <div class="flex items-center justify-center h-16 w-16 rounded-full bg-brand-dark-secondary mx-auto mb-5"><i class="fa-solid fa-car-side text-2xl text-brand-accent"></i></div>
+                        <h3 class="font-bold text-white text-lg">Новые автомобили</h3>
+                        <p class="mt-2 text-sm text-gray-400">Идеально чистые автомобили не старше 5 лет, оснащенные всем необходимым.</p>
+                    </div>
+                    <div class="text-center fade-in-up">
+                        <div class="flex items-center justify-center h-16 w-16 rounded-full bg-brand-dark-secondary mx-auto mb-5"><i class="fa-solid fa-stopwatch-20 text-2xl text-brand-accent"></i></div>
+                        <h3 class="font-bold text-white text-lg">Подача заранее</h3>
+                        <p class="mt-2 text-sm text-gray-400">Прибываем за 10-20 минут до времени, чтобы вы не волновались и успели.</p>
+                    </div>
+                    <div class="text-center fade-in-up">
+                        <div class="flex items-center justify-center h-16 w-16 rounded-full bg-brand-dark-secondary mx-auto mb-5"><i class="fa-solid fa-earth-europe text-2xl text-brand-accent"></i></div>
+                        <h3 class="font-bold text-white text-lg">Поездки по Европе</h3>
+                        <p class="mt-2 text-sm text-gray-400">Организуем трансферы в Румынию, Польшу, Германию и другие страны ЕС.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
         <!-- FLEET SECTION -->
-        <section id="fleet" class="py-16 sm:py-24">
+        <section id="fleet" class="py-16 sm:py-24 bg-brand-dark-secondary">
             <div class="mx-auto max-w-7xl px-6 lg:px-8">
                 <div class="text-center fade-in-up">
                     <h2 class="text-base font-semibold leading-7 text-brand-accent">Наш автопарк</h2>
                     <p class="mt-2 text-3xl font-bold tracking-tight text-white sm:text-4xl">Автомобиль для любой цели</p>
                 </div>
                 <div class="mt-20 grid grid-cols-1 gap-8 lg:grid-cols-3">
-                    <div class="fleet-card fade-in-up bg-brand-dark-secondary border border-gray-800 rounded-2xl p-6 transition-all duration-300 hover:border-brand-accent/50 hover:-translate-y-1 cursor-pointer" data-gallery='["https://images.unsplash.com/photo-1631295958093-31753594191a?q=80&w=2070&auto=format&fit=crop", "https://images.unsplash.com/photo-1610494133965-7f3783896f33?q=80&w=2070&auto=format&fit=crop", "https://images.unsplash.com/photo-1580440318443-6954898c1f36?q=80&w=2069&auto=format&fit=crop"]'>
-                        <img src="https://images.unsplash.com/photo-1631295958093-31753594191a?q=80&w=2070&auto=format&fit=crop" alt="Минивэн Mercedes V-Class" class="rounded-lg mb-6 h-60 w-full object-cover pointer-events-none">
-                        <h3 class="text-2xl font-bold text-white">Минивэны</h3>
-                        <p class="mt-2 text-brand-accent font-semibold">Mercedes V-Class и аналоги</p>
-                        <p class="mt-4 text-gray-400">Идеальны для семейных поездок и деловых делегаций до 7 человек.</p>
+                    <!-- Minivans Card -->
+                    <div class="fleet-card fade-in-up bg-brand-dark border border-gray-800 rounded-2xl p-6 flex flex-col" 
+                         data-gallery='["img/auto/mb-v.png", "img/auto/vv-m.png", "img/auto/vito.png"]'
+                         data-titles='["Mercedes V-Class", "Volkswagen Multivan", "Mercedes Vito"]'>
+                        <div class="fleet-image-wrapper relative h-60 w-full mb-4 rounded-lg overflow-hidden cursor-pointer">
+                            <img src="img/auto/mb-v.png" alt="Минивэн Mercedes V-Class" class="fleet-image w-full h-full object-cover">
+                        </div>
+                        <p class="car-title text-center text-white font-semibold h-6 mb-2"></p>
+                        <div class="flex-grow">
+                            <h3 class="text-2xl font-bold text-white">Минивэны</h3>
+                            <p class="mt-2 text-brand-accent font-semibold">Mercedes V-Class и аналоги</p>
+                            <p class="mt-4 text-gray-400">Идеальны для семейных поездок и деловых делегаций.</p>
+                        </div>
+                        <div class="mt-4 flex items-center gap-6 text-white border-t border-gray-800 pt-4">
+                            <div class="flex items-center gap-2"><i class="fa-solid fa-users text-brand-accent"></i> до 7 чел.</div>
+                            <div class="flex items-center gap-2"><i class="fa-solid fa-suitcase-rolling text-brand-accent"></i> до 5 ед.</div>
+                        </div>
                     </div>
-                    <div class="fleet-card fade-in-up bg-brand-dark-secondary border border-gray-800 rounded-2xl p-6 transition-all duration-300 hover:border-brand-accent/50 hover:-translate-y-1 cursor-pointer" data-gallery='["https://images.unsplash.com/photo-1616422285623-13ff0162193c?q=80&w=1931&auto=format&fit=crop", "https://images.unsplash.com/photo-1552519507-da3b142c6e3d?q=80&w=2070&auto=format&fit=crop", "https://images.unsplash.com/photo-1617469767050-14e542e3c933?q=80&w=2070&auto=format&fit=crop"]'>
-                        <img src="https://images.unsplash.com/photo-1616422285623-13ff0162193c?q=80&w=1931&auto=format&fit=crop" alt="Седан Mercedes S-Class" class="rounded-lg mb-6 h-60 w-full object-cover pointer-events-none">
-                        <h3 class="text-2xl font-bold text-white">Премиум-класс</h3>
-                        <p class="mt-2 text-brand-accent font-semibold">Mercedes S-Class, BMW 7</p>
-                        <p class="mt-4 text-gray-400">Бескомпромиссный комфорт и статус для VIP-персон и особых случаев.</p>
+                    <!-- Premium Card -->
+                    <div class="fleet-card fade-in-up bg-brand-dark border border-gray-800 rounded-2xl p-6 flex flex-col" 
+                         data-gallery='["img/auto/mb-s.png", "img/auto/bmw-7.png", "img/auto/audi-8.png"]'
+                         data-titles='["Mercedes S-Class", "BMW 7 Series", "Audi A8"]'>
+                        <div class="fleet-image-wrapper relative h-60 w-full mb-4 rounded-lg overflow-hidden cursor-pointer">
+                            <img src="img/auto/mb-s.png" alt="Седан Mercedes S-Class" class="fleet-image w-full h-full object-cover">
+                        </div>
+                        <p class="car-title text-center text-white font-semibold h-6 mb-2"></p>
+                        <div class="flex-grow">
+                            <h3 class="text-2xl font-bold text-white">Премиум-класс</h3>
+                            <p class="mt-2 text-brand-accent font-semibold">Mercedes S-Class, BMW 7</p>
+                            <p class="mt-4 text-gray-400">Бескомпромиссный комфорт и статус для VIP-персон.</p>
+                        </div>
+                        <div class="mt-4 flex items-center gap-6 text-white border-t border-gray-800 pt-4">
+                            <div class="flex items-center gap-2"><i class="fa-solid fa-users text-brand-accent"></i> до 3 чел.</div>
+                            <div class="flex items-center gap-2"><i class="fa-solid fa-suitcase-rolling text-brand-accent"></i> до 2 ед.</div>
+                        </div>
                     </div>
-                    <div class="fleet-card fade-in-up bg-brand-dark-secondary border border-gray-800 rounded-2xl p-6 transition-all duration-300 hover:border-brand-accent/50 hover:-translate-y-1 cursor-pointer" data-gallery='["https://images.unsplash.com/photo-1621592484093-b6959535d48a?q=80&w=2070&auto=format&fit=crop", "https://images.unsplash.com/photo-1643818342473-40b441288c64?q=80&w=1932&auto=format&fit=crop", "https://images.unsplash.com/photo-1560958089-b828c24926d4?q=80&w=2070&auto=format&fit=crop"]'>
-                        <img src="https://images.unsplash.com/photo-1621592484093-b6959535d48a?q=80&w=2070&auto=format&fit=crop" alt="Электрокар Tesla" class="rounded-lg mb-6 h-60 w-full object-cover pointer-events-none">
-                        <h3 class="text-2xl font-bold text-white">Электрокары</h3>
-                        <p class="mt-2 text-brand-accent font-semibold">Tesla Model S/X, Audi e-tron</p>
-                        <p class="mt-4 text-gray-400">Тишина, динамика и забота об окружающей среде.</p>
+                    <!-- Comfort Card -->
+                    <div class="fleet-card fade-in-up bg-brand-dark border border-gray-800 rounded-2xl p-6 flex flex-col" 
+                         data-gallery='["img/auto/camry.png", "img/auto/superb.png", "img/auto/passat.png"]'
+                         data-titles='["Toyota Camry", "Skoda Superb", "VW Passat"]'>
+                        <div class="fleet-image-wrapper relative h-60 w-full mb-4 rounded-lg overflow-hidden cursor-pointer">
+                            <img src="img/auto/camry.png" alt="Автомобиль комфорт-класса" class="fleet-image w-full h-full object-cover">
+                        </div>
+                        <p class="car-title text-center text-white font-semibold h-6 mb-2"></p>
+                        <div class="flex-grow">
+                            <h3 class="text-2xl font-bold text-white">Комфорт-класс</h3>
+                            <p class="mt-2 text-brand-accent font-semibold">Toyota Camry, Skoda Superb</p>
+                            <p class="mt-4 text-gray-400">Оптимальное сочетание цены и комфорта для поездок.</p>
+                        </div>
+                         <div class="mt-4 flex items-center gap-6 text-white border-t border-gray-800 pt-4">
+                            <div class="flex items-center gap-2"><i class="fa-solid fa-users text-brand-accent"></i> до 4 чел.</div>
+                            <div class="flex items-center gap-2"><i class="fa-solid fa-suitcase-rolling text-brand-accent"></i> до 3 ед.</div>
+                        </div>
                     </div>
                 </div>
+            </div>
+        </section>
+
+        <!-- DESTINATIONS SECTION -->
+        <section id="destinations" class="py-16 sm:py-24">
+             <div class="mx-auto max-w-7xl px-6 lg:px-8">
+                <div class="text-center fade-in-up">
+                    <h2 class="text-base font-semibold leading-7 text-brand-accent">География поездок</h2>
+                    <p class="mt-2 text-3xl font-bold tracking-tight text-white sm:text-4xl">Популярные направления</p>
+                    <p class="mt-4 max-w-2xl mx-auto text-lg text-gray-400">Мы доставим вас в любую точку Молдовы, Украины и Европы. Ниже лишь некоторые из наших маршрутов.</p>
+                </div>
+                <div class="mt-16 fade-in-up flex flex-wrap justify-center items-center gap-4">
+                    <span class="destination-tag bg-brand-dark-secondary border border-gray-700 rounded-lg px-5 py-2 text-white font-semibold">Кишинев</span>
+                    <span class="destination-tag bg-brand-dark-secondary border border-gray-700 rounded-lg px-5 py-2 text-white font-semibold">Одесса</span>
+                    <span class="destination-tag bg-brand-dark-secondary border border-gray-700 rounded-lg px-5 py-2 text-white font-semibold">Бухарест</span>
+                    <span class="destination-tag bg-brand-dark-secondary border border-gray-700 rounded-lg px-5 py-2 text-white font-semibold">Киев</span>
+                    <span class="destination-tag bg-brand-dark-secondary border border-gray-700 rounded-lg px-5 py-2 text-white font-semibold">Яссы</span>
+                    <span class="destination-tag bg-brand-dark-secondary border border-gray-700 rounded-lg px-5 py-2 text-white font-semibold">Львов</span>
+                    <span class="destination-tag bg-brand-dark-secondary border border-gray-700 rounded-lg px-5 py-2 text-white font-semibold">Варшава</span>
+                    <span class="destination-tag bg-brand-dark-secondary border border-gray-700 rounded-lg px-5 py-2 text-white font-semibold">Буковель</span>
+                    <span class="destination-tag bg-brand-dark-secondary border border-gray-700 rounded-lg px-5 py-2 text-white font-semibold">София</span>
+                    <span class="destination-tag bg-brand-dark-secondary border border-gray-700 rounded-lg px-5 py-2 text-white font-semibold">Бельцы</span>
+                    <span class="destination-tag bg-brand-dark-secondary border border-gray-700 rounded-lg px-5 py-2 text-white font-semibold">Прага</span>
+                    <span class="destination-tag bg-brand-dark-secondary border border-gray-700 rounded-lg px-5 py-2 text-white font-semibold">Измаил</span>
+                    <span class="destination-tag bg-brand-dark-secondary border border-gray-700 rounded-lg px-5 py-2 text-white font-semibold">Берлин</span>
+                    <span class="destination-tag bg-brand-dark-secondary border border-gray-700 rounded-lg px-5 py-2 text-white font-semibold">Тирасполь</span>
+                    <span class="destination-tag bg-brand-dark-secondary border border-gray-700 rounded-lg px-5 py-2 text-white font-semibold">Вена</span>
+                </div>
+                 <div class="mt-8 text-center text-gray-400 fade-in-up">
+                     <p>Не нашли свой маршрут? <a href="#order" class="text-brand-accent font-bold hover:underline">Оставьте заявку</a> для индивидуального расчета.</p>
+                 </div>
             </div>
         </section>
 
@@ -216,15 +360,15 @@
                 </div>
                 <div class="mt-20 grid grid-cols-1 gap-8 lg:grid-cols-3">
                     <div class="fade-in-up bg-brand-dark border border-gray-800 rounded-2xl p-8">
-                        <div class="flex items-center mb-4"><img class="h-12 w-12 rounded-full" src="https://i.pravatar.cc/48?u=a" alt=""><div class="ml-4"><div class="text-base font-bold text-white">Александр Попов</div><div class="text-sm text-gray-400">Трансфер в аэропорт</div></div></div>
-                        <p class="text-gray-300">"Сервис на высшем уровне. Водитель приехал заранее, помог с багажом. Машина — в идеальном состоянии. Поездка прошла быстро и комфортно. Рекомендую!"</p>
+                        <div class="flex items-center mb-4"><img class="h-12 w-12 rounded-full" src="https://i.pravatar.cc/48?u=a" alt=""><div class="ml-4"><div class="text-base font-bold text-white">Александр Попов</div><div class="text-sm text-gray-400">Трансфер в аэропорт Бухареста</div></div></div>
+                        <p class="text-gray-300">"Ездили в Румынию. Сервис на высшем уровне. Водитель приехал заранее, помог с багажом. Машина — в идеальном состоянии. Поездка прошла быстро и комфортно. Рекомендую!"</p>
                     </div>
                     <div class="fade-in-up bg-brand-dark border border-gray-800 rounded-2xl p-8">
                         <div class="flex items-center mb-4"><img class="h-12 w-12 rounded-full" src="https://i.pravatar.cc/48?u=b" alt=""><div class="ml-4"><div class="text-base font-bold text-white">Ирина Ткаченко</div><div class="text-sm text-gray-400">Поездка Кишинёв - Одесса</div></div></div>
                         <p class="text-gray-300">"Заказывали минивэн для семейной поездки. Остались очень довольны. Чисто, просторно, есть вода для пассажиров. Водитель вел машину очень аккуратно."</p>
                     </div>
                     <div class="fade-in-up bg-brand-dark border border-gray-800 rounded-2xl p-8">
-                        <div class="flex items-center mb-4"><img class="h-12 w-12 rounded-full" src="https://i.pravatar.cc/48?u=c" alt=""><div class="ml-4"><div class="text-base font-bold text-white">Сергей Мельник</div><div class="text-sm text-gray-400">Деловая поездка</div></div></div>
+                        <div class="flex items-center mb-4"><img class="h-12 w-12 rounded-full" src="https://i.pravatar.cc/48?u=c" alt=""><div class="ml-4"><div class="text-base font-bold text-white">Сергей Мельник</div><div class="text-sm text-gray-400">Деловая поездка в Киев</div></div></div>
                         <p class="text-gray-300">"Для встречи бизнес-партнеров нужен был автомобиль премиум-класса. Elite Ways не подвели. Пунктуальность, профессионализм и отличный автомобиль."</p>
                     </div>
                 </div>
@@ -243,18 +387,24 @@
                         <input type="text" name="from" placeholder="Откуда" required class="w-full rounded-lg border-2 border-gray-700 bg-brand-dark-secondary px-4 py-3 text-white placeholder-gray-500 transition-colors duration-300 focus:border-brand-accent focus:ring-0">
                         <input type="text" name="to" placeholder="Куда" required class="w-full rounded-lg border-2 border-gray-700 bg-brand-dark-secondary px-4 py-3 text-white placeholder-gray-500 transition-colors duration-300 focus:border-brand-accent focus:ring-0">
                     </div>
-                    <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
-                        <input type="date" name="date" required class="w-full rounded-lg border-2 border-gray-700 bg-brand-dark-secondary px-4 py-3 text-white placeholder-gray-500 transition-colors duration-300 focus:border-brand-accent focus:ring-0">
-                        <input type="time" name="time" required class="w-full rounded-lg border-2 border-gray-700 bg-brand-dark-secondary px-4 py-3 text-white placeholder-gray-500 transition-colors duration-300 focus:border-brand-accent focus:ring-0">
+                    <div class="relative">
+                        <label for="datetime" class="absolute -top-2 left-2 inline-block bg-brand-dark px-1 text-xs font-medium text-gray-400">Дата и время подачи</label>
+                        <input type="datetime-local" id="datetime" name="datetime" required class="w-full rounded-lg border-2 border-gray-700 bg-brand-dark-secondary px-4 py-3 text-white placeholder-gray-500 transition-colors duration-300 focus:border-brand-accent focus:ring-0">
                     </div>
-                    <select name="car-class" class="w-full rounded-lg border-2 border-gray-700 bg-brand-dark-secondary px-4 py-3 text-white placeholder-gray-500 transition-colors duration-300 focus:border-brand-accent focus:ring-0">
-                        <option value="" disabled selected>Выберите класс авто</option>
-                        <option value="minivan">Минивэн</option>
-                        <option value="premium">Премиум-класс</option>
-                        <option value="electric">Электрокар</option>
-                    </select>
-                    <input type="text" name="name" placeholder="Ваше имя" required class="w-full rounded-lg border-2 border-gray-700 bg-brand-dark-secondary px-4 py-3 text-white placeholder-gray-500 transition-colors duration-300 focus:border-brand-accent focus:ring-0">
-                    <input type="tel" name="phone" placeholder="Ваш телефон" required class="w-full rounded-lg border-2 border-gray-700 bg-brand-dark-secondary px-4 py-3 text-white placeholder-gray-500 transition-colors duration-300 focus:border-brand-accent focus:ring-0">
+                    <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
+                        <input type="number" name="passengers" placeholder="Кол-во пассажиров" min="1" required class="w-full rounded-lg border-2 border-gray-700 bg-brand-dark-secondary px-4 py-3 text-white placeholder-gray-500 transition-colors duration-300 focus:border-brand-accent focus:ring-0">
+                        <select name="car-class" class="w-full rounded-lg border-2 border-gray-700 bg-brand-dark-secondary px-4 py-3 text-white placeholder-gray-500 transition-colors duration-300 focus:border-brand-accent focus:ring-0">
+                            <option value="" disabled selected>Выберите класс авто</option>
+                            <option value="minivan">Минивэн (до 7 чел.)</option>
+                            <option value="premium">Премиум-класс (до 3 чел.)</option>
+                            <option value="comfort">Комфорт-класс (до 4 чел.)</option>
+                        </select>
+                    </div>
+                    <textarea name="comment" placeholder="Комментарий (номер рейса, детское кресло и т.д.)" rows="3" class="w-full rounded-lg border-2 border-gray-700 bg-brand-dark-secondary px-4 py-3 text-white placeholder-gray-500 transition-colors duration-300 focus:border-brand-accent focus:ring-0"></textarea>
+                     <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
+                        <input type="text" name="name" placeholder="Ваше имя" required class="w-full rounded-lg border-2 border-gray-700 bg-brand-dark-secondary px-4 py-3 text-white placeholder-gray-500 transition-colors duration-300 focus:border-brand-accent focus:ring-0">
+                        <input type="tel" name="phone" placeholder="Ваш телефон" required class="w-full rounded-lg border-2 border-gray-700 bg-brand-dark-secondary px-4 py-3 text-white placeholder-gray-500 transition-colors duration-300 focus:border-brand-accent focus:ring-0">
+                    </div>
                     <div class="text-center pt-4">
                         <button type="submit" class="inline-block rounded-lg bg-brand-accent px-8 py-3.5 text-center text-base font-bold text-brand-dark transition-all duration-300 hover:bg-brand-accent-hover hover:shadow-lg hover:scale-105 w-full sm:w-auto">Отправить заявку</button>
                     </div>
@@ -264,20 +414,68 @@
                 </div>
             </div>
         </section>
+        
+        <!-- FAQ SECTION -->
+        <section id="faq" class="py-16 sm:py-24 bg-brand-dark-secondary">
+            <div class="mx-auto max-w-3xl px-6 lg:px-8">
+                <div class="text-center fade-in-up">
+                    <h2 class="text-3xl font-bold tracking-tight text-white sm:text-4xl">Часто задаваемые вопросы</h2>
+                </div>
+                <div class="mt-12 space-y-4 fade-in-up">
+                    <div class="bg-brand-dark border border-gray-800 rounded-lg">
+                        <div class="faq-question cursor-pointer flex justify-between items-center p-6">
+                            <h3 class="font-bold text-white">Что произойдет, если мой рейс задержат?</h3>
+                            <i class="fa-solid fa-chevron-down faq-arrow text-brand-accent"></i>
+                        </div>
+                        <div class="faq-answer">
+                            <p class="text-gray-400 pb-6">Мы отслеживаем все рейсы онлайн. Водитель приедет в аэропорт ко времени фактического прибытия вашего самолета. Бесплатное ожидание в аэропорту составляет 60 минут после посадки рейса.</p>
+                        </div>
+                    </div>
+                     <div class="bg-brand-dark border border-gray-800 rounded-lg">
+                        <div class="faq-question cursor-pointer flex justify-between items-center p-6">
+                            <h3 class="font-bold text-white">Как я найду своего водителя?</h3>
+                            <i class="fa-solid fa-chevron-down faq-arrow text-brand-accent"></i>
+                        </div>
+                        <div class="faq-answer">
+                            <p class="text-gray-400 pb-6">Ваш водитель будет ждать вас в зале прилета с табличкой, на которой будет указано ваше имя. За день до поездки мы также отправим вам контактные данные водителя.</p>
+                        </div>
+                    </div>
+                    <div class="bg-brand-dark border border-gray-800 rounded-lg">
+                        <div class="faq-question cursor-pointer flex justify-between items-center p-6">
+                            <h3 class="font-bold text-white">Можно ли оплатить поездку картой?</h3>
+                            <i class="fa-solid fa-chevron-down faq-arrow text-brand-accent"></i>
+                        </div>
+                        <div class="faq-answer">
+                            <p class="text-gray-400 pb-6">Да, конечно. Вы можете оплатить поездку наличными водителю или банковской картой. Пожалуйста, сообщите о предпочтительном способе оплаты при заказе.</p>
+                        </div>
+                    </div>
+                    <div class="bg-brand-dark border border-gray-800 rounded-lg">
+                        <div class="faq-question cursor-pointer flex justify-between items-center p-6">
+                            <h3 class="font-bold text-white">Вы предоставляете детские автокресла?</h3>
+                            <i class="fa-solid fa-chevron-down faq-arrow text-brand-accent"></i>
+                        </div>
+                        <div class="faq-answer">
+                            <p class="text-gray-400 pb-6">Да, мы предоставляем детские кресла и бустеры для детей всех возрастов. Услуга бесплатная. Пожалуйста, укажите необходимость кресла и возраст ребенка в комментарии к заказу.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
     </main>
 
     <!-- FOOTER -->
-    <footer class="border-t border-gray-800 bg-brand-dark-secondary">
+    <footer class="border-t border-gray-800 bg-brand-dark">
         <div class="mx-auto max-w-7xl px-6 py-12 lg:px-8">
             <div class="flex flex-col md:flex-row justify-between items-center gap-8">
                 <div class="text-center md:text-left">
                     <a href="#" class="text-2xl font-bold text-white"><i class="fa-solid fa-gem text-brand-accent mr-2"></i>Elite<span class="font-light">Ways</span></a>
-                    <p class="mt-2 text-sm text-gray-400">&copy; 2024 Elite Ways. Все права защищены.</p>
+                    <p class="mt-2 text-sm text-gray-400">&copy; <span id="copyright-year"></span> Elite Ways. Все права защищены.</p>
                 </div>
                 <div class="flex space-x-6">
-                    <a href="#" class="text-gray-400 hover:text-brand-accent"><i class="fa-brands fa-telegram text-2xl"></i></a>
-                    <a href="#" class="text-gray-400 hover:text-brand-accent"><i class="fa-brands fa-whatsapp text-2xl"></i></a>
-                    <a href="#" class="text-gray-400 hover:text-brand-accent"><i class="fa-brands fa-viber text-2xl"></i></a>
+                    <a href="https://t.me/your_telegram" target="_blank" class="text-gray-400 hover:text-brand-accent"><i class="fa-brands fa-telegram text-2xl"></i></a>
+                    <a href="https://wa.me/37300000000" target="_blank" class="text-gray-400 hover:text-brand-accent"><i class="fa-brands fa-whatsapp text-2xl"></i></a>
+                    <a href="viber://chat?number=%2B37300000000" target="_blank" class="text-gray-400 hover:text-brand-accent"><i class="fa-brands fa-viber text-2xl"></i></a>
                 </div>
                 <div class="text-center md:text-right">
                     <a href="tel:+37300000000" class="block font-bold text-white hover:text-brand-accent">+373 (00) 000-000</a>
@@ -285,17 +483,25 @@
                 </div>
             </div>
         </div>
+        <div class="border-t border-gray-800">
+            <div class="mx-auto max-w-7xl px-6 py-4">
+                <p class="text-center text-xs text-gray-500">
+                    Разработка — <a href="https://t.me/dreamskies" target="_blank" rel="noopener noreferrer" class="font-semibold text-gray-400 hover:text-brand-accent transition-colors">DreamSkies</a>
+                </p>
+            </div>
+        </div>
     </footer>
 
     <!-- GALLERY MODAL -->
-    <div id="gallery-modal" class="hidden fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-4 transition-opacity duration-300">
+    <div id="gallery-modal" class="hidden fixed inset-0 bg-black/90 z-50 flex items-center justify-center p-4 transition-opacity duration-300">
         <div id="gallery-content" class="relative bg-brand-dark-secondary p-4 rounded-lg max-w-4xl w-full max-h-[90vh] flex flex-col">
-            <button id="close-gallery-btn" class="absolute -top-4 -right-4 h-10 w-10 bg-white text-black rounded-full text-2xl z-20">&times;</button>
+            <button id="close-gallery-btn" class="absolute -top-4 -right-4 h-10 w-10 bg-white text-black rounded-full text-2xl z-20 flex items-center justify-center">&times;</button>
             <div class="relative">
                 <img id="main-gallery-image" src="" alt="Фото автомобиля" class="w-full h-auto object-contain rounded-md max-h-[70vh]">
                 <button id="prev-gallery-btn" class="absolute left-2 top-1/2 -translate-y-1/2 text-white bg-black/30 hover:bg-black/50 rounded-full h-10 w-10 text-xl z-10 transition-colors"><i class="fa-solid fa-chevron-left"></i></button>
                 <button id="next-gallery-btn" class="absolute right-2 top-1/2 -translate-y-1/2 text-white bg-black/30 hover:bg-black/50 rounded-full h-10 w-10 text-xl z-10 transition-colors"><i class="fa-solid fa-chevron-right"></i></button>
             </div>
+            <h3 id="gallery-car-title" class="text-xl font-bold text-white text-center mt-4"></h3>
             <div id="gallery-thumbnails" class="flex gap-2 mt-4 overflow-x-auto p-2">
                 <!-- Thumbnails will be injected here by JS -->
             </div>
@@ -334,9 +540,10 @@
         mobileNavLinks.forEach(link => link.addEventListener('click', closeMenu));
 
         // --- HERO ANIMATION ---
-        gsap.from("#hero-title", { duration: 1.2, y: 50, opacity: 0, ease: "power3.out", delay: 0.2 });
-        gsap.from("#hero-subtitle", { duration: 1.2, y: 50, opacity: 0, ease: "power3.out", delay: 0.4 });
-        gsap.from("#hero-button", { duration: 1.2, y: 50, opacity: 0, ease: "power3.out", delay: 0.6 });
+        gsap.from("#hero-title", { duration: 1, y: 50, opacity: 0, ease: "power3.out", delay: 0.2 });
+        gsap.from("#hero-subtitle", { duration: 1, y: 50, opacity: 0, ease: "power3.out", delay: 0.4 });
+        gsap.from("#hero-buttons", { duration: 1, y: 50, opacity: 0, ease: "power3.out", delay: 0.6 });
+        gsap.from("#hero-messengers", { duration: 1, y: 50, opacity: 0, ease: "power3.out", delay: 0.8 });
         gsap.fromTo("#hero-bg", { scale: 1.1, y: -50 }, { scale: 1, y: 0, duration: 2, ease: "power2.out" });
 
         // --- PARALLAX FOR HERO BACKGROUND ---
@@ -355,8 +562,7 @@
         gsap.utils.toArray('.counter').forEach(counter => {
             const target = { val: 0 };
             const endValue = parseInt(counter.dataset.target, 10);
-            const suffix = counter.nextElementSibling ? counter.nextElementSibling.textContent : '';
-
+            
             ScrollTrigger.create({
                 trigger: counter,
                 start: 'top 85%',
@@ -376,53 +582,124 @@
 
         // --- FADE IN ON SCROLL ---
         const fadeElements = gsap.utils.toArray('.fade-in-up');
-        gsap.set(fadeElements, { opacity: 0, y: 40 });
         fadeElements.forEach((el) => {
-            gsap.to(el, {
+            gsap.from(el, {
                 scrollTrigger: {
                     trigger: el,
                     start: "top 85%",
                     toggleActions: "play none none none",
                 },
-                opacity: 1,
-                y: 0,
+                opacity: 0,
+                y: 40,
                 duration: 1,
                 ease: "power3.out",
             });
         });
         
         // --- FORM SUBMISSION ---
-        const orderForm = document.getElementById('order-form');
-        const successMessage = document.getElementById('form-success-message');
-        orderForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            successMessage.classList.remove('hidden');
-            orderForm.reset();
-            setTimeout(() => successMessage.classList.add('hidden'), 5000);
+        const botToken = '8463630414:AAEG0bvmSLlc4CZ_q2BlHkqEpjnbgMBTnYU';
+        const chatId = '-1002828668884';
+
+orderForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    const formData = new FormData(orderForm);
+
+    const message = `
+🚗 *Новая заявка на трансфер*
+👤 Имя: ${formData.get('name')}
+📞 Телефон: ${formData.get('phone')}
+📍 Откуда: ${formData.get('from')}
+📍 Куда: ${formData.get('to')}
+🕒 Дата и время: ${formData.get('datetime')}
+👥 Пассажиров: ${formData.get('passengers')}
+🚘 Класс авто: ${formData.get('car-class')}
+💬 Комментарий: ${formData.get('comment')}
+    `;
+
+    try {
+        await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                chat_id: chatId,
+                text: message,
+                parse_mode: 'Markdown'
+            })
         });
 
-        // --- GALLERY MODAL LOGIC ---
+        successMessage.classList.remove('hidden');
+        orderForm.reset();
+        setTimeout(() => successMessage.classList.add('hidden'), 5000);
+    } catch (error) {
+        alert('Ошибка отправки. Попробуйте позже.');
+        console.error(error);
+    }
+});
+
+        // --- FLEET SLIDER & GALLERY LOGIC ---
+        const fleetCards = document.querySelectorAll('.fleet-card');
         const modal = document.getElementById('gallery-modal');
         const closeGalleryBtn = document.getElementById('close-gallery-btn');
         const mainImage = document.getElementById('main-gallery-image');
+        const galleryCarTitle = document.getElementById('gallery-car-title');
         const thumbnailsContainer = document.getElementById('gallery-thumbnails');
-        const fleetCards = document.querySelectorAll('.fleet-card');
         const prevBtn = document.getElementById('prev-gallery-btn');
         const nextBtn = document.getElementById('next-gallery-btn');
 
         let currentGalleryImages = [];
+        let currentGalleryTitles = [];
         let currentImageIndex = 0;
 
         fleetCards.forEach(card => {
-            card.addEventListener('click', () => {
-                currentGalleryImages = JSON.parse(card.dataset.gallery);
-                currentImageIndex = 0;
+            let imageEl = card.querySelector('.fleet-image');
+            const titleEl = card.querySelector('.car-title');
+            const wrapper = card.querySelector('.fleet-image-wrapper');
+            const images = JSON.parse(card.dataset.gallery);
+            const titles = JSON.parse(card.dataset.titles);
+            let currentIndex = 0;
+
+            titleEl.textContent = titles[currentIndex];
+
+            const sliderInterval = setInterval(() => {
+                currentIndex = (currentIndex + 1) % images.length;
+                
+                const newImageEl = document.createElement('img');
+                newImageEl.src = images[currentIndex];
+                newImageEl.alt = titles[currentIndex];
+                newImageEl.className = 'fleet-image w-full h-full object-cover';
+                
+                gsap.set(newImageEl, { xPercent: 100 });
+                wrapper.appendChild(newImageEl);
+                
+                gsap.to(imageEl, { xPercent: -100, duration: 0.7, ease: 'power2.inOut' });
+                gsap.to(newImageEl, { 
+                    xPercent: 0, 
+                    duration: 0.7, 
+                    ease: 'power2.inOut',
+                    onComplete: () => {
+                        imageEl.remove();
+                        imageEl = newImageEl;
+                    }
+                });
+
+                titleEl.textContent = titles[currentIndex];
+
+            }, 4000);
+
+            wrapper.addEventListener('click', () => {
+                currentGalleryImages = images;
+                currentGalleryTitles = titles;
+                currentImageIndex = currentIndex;
                 openGallery();
             });
         });
 
         function updateGalleryView() {
             mainImage.src = currentGalleryImages[currentImageIndex];
+            galleryCarTitle.textContent = currentGalleryTitles[currentImageIndex];
             document.querySelectorAll('#gallery-thumbnails img').forEach((thumb, index) => {
                 thumb.classList.toggle('border-brand-accent', index === currentImageIndex);
                 thumb.classList.toggle('border-transparent', index !== currentImageIndex);
@@ -443,10 +720,11 @@
             });
             updateGalleryView();
             modal.classList.remove('hidden');
+            gsap.fromTo(modal, { opacity: 0 }, { opacity: 1, duration: 0.3 });
         }
 
         function closeGallery() {
-            modal.classList.add('hidden');
+            gsap.to(modal, { opacity: 0, duration: 0.3, onComplete: () => modal.classList.add('hidden') });
         }
 
         function showNextImage() {
@@ -468,6 +746,42 @@
                 closeGallery();
             }
         });
+        
+        // --- FAQ ACCORDION LOGIC ---
+        const faqQuestions = document.querySelectorAll('.faq-question');
+        faqQuestions.forEach(question => {
+            question.addEventListener('click', () => {
+                const answer = question.nextElementSibling;
+                const wasActive = question.classList.contains('active');
+
+                faqQuestions.forEach(q => {
+                    if (q !== question) {
+                        q.classList.remove('active');
+                        q.nextElementSibling.style.maxHeight = null;
+                        q.nextElementSibling.style.padding = '0 1.5rem';
+                    }
+                });
+
+                if (!wasActive) {
+                    question.classList.add('active');
+                    answer.style.padding = '0 1.5rem 1.5rem';
+                    answer.style.maxHeight = answer.scrollHeight + 'px';
+                } else {
+                    question.classList.remove('active');
+                    answer.style.maxHeight = null;
+                    answer.style.padding = '0 1.5rem';
+                }
+            });
+        });
+
+        // --- DYNAMIC COPYRIGHT YEAR ---
+        document.getElementById('copyright-year').textContent = new Date().getFullYear();
+
+        // --- Set min date for datetime-local input ---
+        const now = new Date();
+        now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
+        document.getElementById('datetime').min = now.toISOString().slice(0,16);
+
     });
     </script>
 </body>
