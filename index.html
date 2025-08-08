@@ -148,35 +148,44 @@
 
     <main>
         <!-- HERO SECTION -->
-        <section class="relative min-h-screen flex items-center justify-center text-center overflow-hidden">
-            <div class="absolute inset-0 z-0">
-                <img src="img/mer.png" 
-                     alt="Интерьер премиального автомобиля" 
-                     class="w-full h-full object-cover opacity-40" id="hero-bg">
-                <div class="absolute inset-0 bg-gradient-to-t from-brand-dark via-brand-dark/50 to-transparent"></div>
-            </div>
-            <div class="relative z-10 px-4">
-                <h1 id="hero-title" class="text-4xl font-extrabold tracking-tight text-white sm:text-6xl md:text-7xl">
-                    Трансфер премиум-класса
-                </h1>
-                <p id="hero-subtitle" class="mt-6 max-w-3xl mx-auto text-lg sm:text-xl text-gray-300">
-                    Пассажирские перевозки по Молдове, Украине и в любую точку Европы. 15 лет безупречного сервиса.
-                </p>
-                <div id="hero-buttons" class="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
-                    <a href="#order" class="inline-block w-full sm:w-auto rounded-lg bg-brand-accent px-8 py-3.5 text-center text-lg font-bold text-brand-dark transition-all duration-300 hover:bg-brand-accent-hover hover:shadow-lg hover:scale-105">Рассчитать и заказать</a>
-                    <a href="tel:+37300000000" class="inline-block w-full sm:w-auto rounded-lg bg-brand-dark-secondary border border-gray-700 px-8 py-3.5 text-center text-lg font-bold text-white transition-all duration-300 hover:bg-gray-800 hover:scale-105"><i class="fa-solid fa-phone mr-2"></i>Позвонить</a>
-                </div>
-                 <div id="hero-messengers" class="mt-8 flex justify-center items-center gap-6">
-                    <span class="text-gray-400 text-sm">Или напишите нам:</span>
-                    <a href="https://t.me/your_telegram" target="_blank" class="text-gray-400 hover:text-brand-accent transition-colors"><i class="fa-brands fa-telegram text-3xl"></i></a>
-                    <a href="https://wa.me/37300000000" target="_blank" class="text-gray-400 hover:text-brand-accent transition-colors"><i class="fa-brands fa-whatsapp text-3xl"></i></a>
-                    <a href="viber://chat?number=%2B37300000000" target="_blank" class="text-gray-400 hover:text-brand-accent transition-colors"><i class="fa-brands fa-viber text-3xl"></i></a>
-                 </div>
-            </div>
-            <div class="absolute bottom-10 left-1/2 -translate-x-1/2 z-10">
-                <a href="#about" class="scroll-down-arrow text-white text-3xl"><i class="fa-solid fa-chevron-down"></i></a>
-            </div>
-        </section>
+<section class="relative min-h-screen flex items-center justify-center text-center overflow-hidden">
+    <div class="absolute inset-0 z-0">
+        <video autoplay muted loop playsinline 
+               class="w-full h-full object-cover opacity-40" id="hero-bg">
+            <source src="video/drive.mp4" type="video/mp4">
+            Ваш браузер не поддерживает видео.
+        </video>
+        <div class="absolute inset-0 bg-gradient-to-t from-brand-dark via-brand-dark/50 to-transparent"></div>
+    </div>
+    <div class="relative z-10 px-4">
+        <h1 id="hero-title" class="text-4xl font-extrabold tracking-tight text-white sm:text-6xl md:text-7xl">
+            Трансфер премиум-класса
+        </h1>
+        <p id="hero-subtitle" class="mt-6 max-w-3xl mx-auto text-lg sm:text-xl text-gray-300">
+            Пассажирские перевозки по Молдове, Украине и в любую точку Европы. 15 лет безупречного сервиса.
+        </p>
+        <div id="hero-buttons" class="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
+            <a href="#order" class="inline-block w-full sm:w-auto rounded-lg bg-brand-accent px-8 py-3.5 text-center text-lg font-bold text-brand-dark transition-all duration-300 hover:bg-brand-accent-hover hover:shadow-lg hover:scale-105">
+                Рассчитать и заказать
+            </a>
+            <a href="tel:+37300000000" class="inline-block w-full sm:w-auto rounded-lg bg-brand-dark-secondary border border-gray-700 px-8 py-3.5 text-center text-lg font-bold text-white transition-all duration-300 hover:bg-gray-800 hover:scale-105">
+                <i class="fa-solid fa-phone mr-2"></i>Позвонить
+            </a>
+        </div>
+        <div id="hero-messengers" class="mt-8 flex justify-center items-center gap-6">
+            <span class="text-gray-400 text-sm">Или напишите нам:</span>
+            <a href="https://t.me/your_telegram" target="_blank" class="text-gray-400 hover:text-brand-accent transition-colors"><i class="fa-brands fa-telegram text-3xl"></i></a>
+            <a href="https://wa.me/37300000000" target="_blank" class="text-gray-400 hover:text-brand-accent transition-colors"><i class="fa-brands fa-whatsapp text-3xl"></i></a>
+            <a href="viber://chat?number=%2B37300000000" target="_blank" class="text-gray-400 hover:text-brand-accent transition-colors"><i class="fa-brands fa-viber text-3xl"></i></a>
+        </div>
+    </div>
+    <div class="absolute bottom-10 left-1/2 -translate-x-1/2 z-10">
+        <a href="#about" class="scroll-down-arrow text-white text-3xl">
+            <i class="fa-solid fa-chevron-down"></i>
+        </a>
+    </div>
+</section>
+
 
         <!-- ABOUT US SECTION -->
         <section id="about" class="py-16 sm:py-24 bg-brand-dark-secondary">
@@ -778,4 +787,3 @@ document.addEventListener('DOMContentLoaded', function () {
     </script>
 </body>
 </html>
-
